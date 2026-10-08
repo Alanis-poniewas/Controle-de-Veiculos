@@ -6,69 +6,97 @@ package br.dev.alanis.controledeveiculos;
  */
 public class Veiculo {
     
-    String placa;
-    String marca;
-    String modelo;
-    int status;
-    String motorista;
-    
+    private String placa;
+
+    private String marca;
+
+    private String modelo;
+
+    private StatusVeiculo status;
+
+    private String motorista;
+
     public Veiculo(String placa, String marca, String modelo) {
-        this.placa = placa;
+        this.setPlaca(placa);
         this.marca = marca;
         this.modelo = modelo;
-        this.status = 0;
+
         this.motorista = "";
+        this.status = StatusVeiculo.PATIO;
+
     }
-    
-    public String getPlaca() {
-        return placa;
-}
-    
-    public void setPlaca(String placa) {
-        this.placa = placa;
-    }
-    
-    public String getMarca() {
-        return marca;
-    }
-    
-    public void setMarca(String marca) {
-        this.marca = marca;
-    }
-    
+
     public String getModelo() {
         return modelo;
     }
-    
+
     public void setModelo(String modelo) {
         this.modelo = modelo;
     }
-    
-    public int getSatus() {
+
+    public String getMarca() {
+        return marca;
+    }
+
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
+
+    public StatusVeiculo getStatus() {
+        //public int getStatus() {
         return status;
     }
-    
+
+    public void setStatus(StatusVeiculo status) {
+        this.status = status;
+    }
+
     public String getMotorista() {
         return motorista;
     }
-    
-    public void setMotorista(String motorist) {
+
+    public void setMotorista(String motorista) {
         this.motorista = motorista;
     }
-    
-    public void changeStatus() {
-        if(this.status == 0) {
-            System.out.println("O motorista está no Pátio!");
-        } else if (this.status == 1) {
-        System.out.println("O motorista está na Linha(rua)!");
+
+    public void setPlaca(String placa) {
+        if (placa.length() == 7) {
+            this.placa = placa;
         } else {
-            System.out.println("Status não informado!!");
+            throw new UnsupportedOperationException("Placa Invalida");
         }
     }
-    
+
+    public String getPlaca() {
+
+        String aux = this.placa.substring(0, 3);    // AAA1234   AAA-1234
+        aux += "-";
+        aux += this.placa.substring(3, 7);
+
+        return aux;
+    }
+
     @Override
     public String toString() {
-        return "Veiculo{" + "placa=" + placa + ", marca=" + marca + ", modelo=" + modelo + ", status=" + status + ", motorista=" + motorista + '}';
+        return String.format("%10s %10s %10s %10s %10s",
+                this.getPlaca(),
+                this.getModelo(),
+                this.getMarca(),
+                this.getMotorista(),
+                this.getStatus().name());
     }
-    
+
+    public void sairComVeiculo(String motorista) {
+        this.motorista = motorista;
+
+        this.status = StatusVeiculo.RUA;
+
+    }
+
+    public void entrarComVeiculo() {
+
+        this.status = StatusVeiculo.PATIO;
+
+    }
+
 }
